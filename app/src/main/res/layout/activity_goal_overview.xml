@@ -5,17 +5,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
     <ProgressBar
         android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="312dp"
         android:layout_height="326dp"
         android:layout_gravity="center_horizontal"
         android:progress="70"
-        android:progressDrawable="@drawable/circle"
+        android:indeterminate="false"
+        android:background="@drawable/circle"
+        android:progressDrawable="@drawable/circular_progress"
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="48dp"
         tools:layout_editor_absoluteY="123dp"
-        tools:progress="1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"
@@ -23,13 +26,14 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.327"/>
 
+
     <TextView
         android:id="@+id/currPercentage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="25%"
         android:textAlignment="center"
-        android:textColor="#008500"
+        android:textColor="#618264"
         android:textSize="40sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -39,13 +43,28 @@
         app:layout_constraintVertical_bias="0.402"
         tools:ignore="MissingConstraints" />
 
+
+    <ImageButton
+        android:id="@+id/closeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:src="@android:drawable/ic_menu_close_clear_cancel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+
+
+
+
     <TextView
         android:id="@+id/goalName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Concerts"
         android:textAlignment="center"
-        android:textColor="#008500"
+        android:textColor="#618264"
         android:textSize="40sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -55,12 +74,13 @@
         app:layout_constraintVertical_bias="0.091"
         tools:ignore="MissingConstraints" />
 
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Current Progress:"
         android:textAlignment="center"
-        android:textColor="#008500"
+        android:textColor="#618264"
         android:textSize="35sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -70,13 +90,14 @@
         app:layout_constraintVertical_bias="0.684"
         tools:ignore="MissingConstraints" />
 
+
     <TextView
         android:id="@+id/currContribution"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="$500/$2000"
         android:textAlignment="center"
-        android:textColor="#008500"
+        android:textColor="#618264"
         android:textSize="35sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -85,6 +106,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.764"
         tools:ignore="MissingConstraints" />
+
 
     <EditText
         android:id="@+id/inputtedContribution"
@@ -100,11 +122,12 @@
         app:layout_constraintVertical_bias="0.86"
         tools:ignore="MissingConstraints" />
 
+
     <Button
         android:id="@+id/backToLoginButton"
         android:layout_width="293dp"
         android:layout_height="59dp"
-        android:backgroundTint="#006600"
+        android:backgroundTint="#618264"
         android:text="Enter Contribution"
         android:textSize="25sp"
         app:layout_constraintBottom_toBottomOf="parent"

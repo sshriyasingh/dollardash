@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "980444300578",
+    "project_id": "dollardash436",
+    "storage_bucket": "dollardash436.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:980444300578:android:fd889b92600ff54961517b",
+        "android_client_info": {
+          "package_name": "com.example.dollardash"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD7tZ1lLLUxUmDQh65_P0b9MrEyyTil-O4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
