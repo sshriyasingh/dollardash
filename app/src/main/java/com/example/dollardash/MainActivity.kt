@@ -1,5 +1,6 @@
 package com.example.dollardash
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -47,8 +48,10 @@ class MainActivity : AppCompatActivity() {
                     if (task.isSuccessful) {
                         val user = auth.currentUser
                         Toast.makeText(this, "Login Successful", Toast.LENGTH_LONG).show()
-                        setContentView(R.layout.activity_account_main)
-                        val datePicker = findViewById<DatePicker>(R.id.datePicker)
+                        val intent = Intent(this, AccountMainActivity::class.java)
+                        //startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
+                        startActivity(intent)
+                        /*val datePicker = findViewById<DatePicker>(R.id.datePicker)
                         val calendar = Calendar.getInstance()
                         datePicker.minDate = calendar.timeInMillis
                         val inputtedBalance = findViewById<EditText>(R.id.inputtedBalance)
@@ -68,7 +71,7 @@ class MainActivity : AppCompatActivity() {
                         createGoalButton.setOnClickListener() {
                             setContentView(R.layout.activity_goal_overview)
                             //currently login button does not work when you "go back to login button"
-                        }
+                        }*/
                     } else {
                         Toast.makeText(this, "Login Failed", Toast.LENGTH_LONG).show()
                         Log.w("Login", "signInWithEmail:failure", task.exception)
@@ -77,8 +80,14 @@ class MainActivity : AppCompatActivity() {
         }
 
         createAccountButtonMain.setOnClickListener() {
-            setContentView(R.layout.activity_create_account)
-            val backToLoginButton = findViewById<Button>(R.id.backToLoginButton)
+            val intent = Intent(this, CreateAccountMain::class.java)
+            //startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
+            startActivity(intent)
+            /*val logoutButton = findViewById<Button>(R.id.logout)
+            logoutButton.setOnClickListener() {
+                FirebaseAuth.getInstance().signOut()
+            }*/
+            /*val backToLoginButton = findViewById<Button>(R.id.backToLoginButton)
             val createAccountButton = findViewById<Button>(R.id.createAccountButton)
             //currently login button does not work when you "go back to login button"
             backToLoginButton.setOnClickListener() {
@@ -100,7 +109,7 @@ class MainActivity : AppCompatActivity() {
                             Toast.makeText(this, "Account Creation Failed", Toast.LENGTH_LONG).show()
                         }
                     }
-            }
+            }*/
         }
     }
 }
