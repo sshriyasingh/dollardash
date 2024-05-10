@@ -38,7 +38,6 @@ class NewGoal : AppCompatActivity() {
         }
         enterButton.setOnClickListener {
             val goalName = enterGoalName.text.toString()
-            //val goalAmount = enterGoalAmount.text.toString().toDoubleOrNull() ?: 0.0
             if (goalName.isNotEmpty() && enterGoalAmount.text.toString().isNotEmpty()) {
                 val goalAmount = enterGoalAmount.text.toString().toDouble()
                 if (goalAmount > 0) {

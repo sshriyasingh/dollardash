@@ -28,12 +28,11 @@ class GoalOverviewActivity : AppCompatActivity() {
         val buttonUpdate = findViewById<Button>(R.id.enterContribution)
         val goalName = findViewById<TextView>(R.id.goalName)
 
-        // Maximum value for the progress bar
         val maxProgress = intent.getIntExtra("goalAmount", 0)
 
         Log.w("MaxProgress", maxProgress.toString())
         goalName.text = intent.getStringExtra("goalName")
-        progressBar.max = maxProgress  // You might need to adjust your custom progress drawable
+        progressBar.max = maxProgress
         currentProgress = intent.getIntExtra("progress", 0)
         progressBar.progress = currentProgress
 
@@ -45,7 +44,6 @@ class GoalOverviewActivity : AppCompatActivity() {
         buttonUpdate.setOnClickListener {
             val contribution = editTextNumber.text.toString().toIntOrNull() ?: 0
             sharedPreferencesManager.saveAccountBalance(username.toString(), sharedPreferencesManager.getAccountBalance(username.toString()))
-            //val
             val newProgress = currentProgress + contribution
             progressBar.progress = newProgress
             currentProgress = newProgress
@@ -58,7 +56,7 @@ class GoalOverviewActivity : AppCompatActivity() {
     fun goBack(view: View) {
         val resultIntent = Intent().apply {
             putExtra("progress", currentProgress)
-            putExtra("goalIndex", intent.getIntExtra("goalIndex", -1))  // Get the passed index back
+            putExtra("goalIndex", intent.getIntExtra("goalIndex", -1))
         }
         setResult(RESULT_OK, resultIntent)
         finish()

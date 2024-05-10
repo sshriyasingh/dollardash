@@ -20,6 +20,7 @@ class AccountMainActivity : AppCompatActivity() {
     private lateinit var updateBalanceButton: Button
     private lateinit var balance: TextView
     private lateinit var goalListView: ListView
+    private var newGoal : Goal = Goal("", 0, 0)
     private val goalList: MutableList<String> = mutableListOf()
     var updatedBalance = 0.0
 
@@ -68,10 +69,11 @@ class AccountMainActivity : AppCompatActivity() {
             val goalName = parts[0]
             val goalAmount = parts[4].removePrefix("$").toDouble().toInt()
             val progress = parts[2].removePrefix("$").toDouble().toInt()
+            newGoal = Goal(goalName, goalAmount, progress)
             val intent = Intent(this@AccountMainActivity, GoalOverviewActivity::class.java).apply {
-                putExtra("goalName", goalName)
-                putExtra("goalAmount", goalAmount)
-                putExtra("progress", progress)
+                putExtra("goalName", newGoal.getName())
+                putExtra("goalAmount", newGoal.getTotal())
+                putExtra("progress", newGoal.getCurrContrib())
                 putExtra("goalIndex", position)
             }
             goalOverviewLauncher.launch(intent)
@@ -80,18 +82,17 @@ class AccountMainActivity : AppCompatActivity() {
 
     private val createGoalLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == RESULT_OK) {
-            // Handle the result here
             val data = result.data
-            // Retrieve goal data from NewGoal activity result
             val goalName = data?.getStringExtra("goalName") ?: ""
             val goalAmount = data?.getDoubleExtra("goalAmount", 0.0) ?: 0.0
             val progress = data?.getDoubleExtra("progress", 0.0) ?: 0.0
+            newGoal.setCurrContrib(progress.toInt())
             val dateString = data?.getStringExtra("selectedDate") ?: ""
             val dateFormat = SimpleDateFormat("MM/dd/yyyy", Locale.getDefault())
             val date = if (dateString.isNotEmpty()) {
                 val parsedDate = dateFormat.parse(dateString)
                 parsedDate?.let {
-                    dateFormat.format(it) // Format the date without time
+                    dateFormat.format(it)
                 }
             } else {
                 null
@@ -112,7 +113,8 @@ class AccountMainActivity : AppCompatActivity() {
             val currentBal = sharedPreferencesManager.getAccountBalance(username.toString())
             updatedBalance = currentBal - updatedProgress.toDouble()
             sharedPreferencesManager.saveAccountBalance(username.toString(), updatedBalance)
-            balance.setText(updatedBalance.toString())
+            val formattedBalance = "$%.2f".format(updatedBalance)
+            balance.text = formattedBalance
             if (goalIndex >= 0 && goalIndex < goalList.size) {
                 val goalString = goalList[goalIndex]
                 val parts = goalString.split(" ")
