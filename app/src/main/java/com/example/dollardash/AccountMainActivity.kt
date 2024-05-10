@@ -26,15 +26,20 @@ class AccountMainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_account_main)
 
-        // Initialize views
+        var sharedPreferencesManager = SharedPreferencesManager(this)
+
+        sharedPreferencesManager.printAllPreferences()
+
         inputtedBalance = findViewById(R.id.inputtedBalance)
         createGoalButton = findViewById(R.id.createGoalButton)
         updateBalanceButton = findViewById(R.id.updateBalance)
-        var balanceDouble = 0.00
+        val curr = intent
+        val username = curr.getStringExtra("username")
+        var balanceDouble = sharedPreferencesManager.getAccountBalance(username.toString())
         balance = findViewById(R.id.balance)
+        balance.text = "$%.2f".format(balanceDouble)
         goalListView = findViewById(R.id.listView)
 
-        // Set adapter for the goal list view
         val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, goalList)
         goalListView.adapter = adapter
 
@@ -44,15 +49,10 @@ class AccountMainActivity : AppCompatActivity() {
         }
 
         updateBalanceButton.setOnClickListener {
-            /*val currentBalance = balance.text.toString().toDoubleOrNull() ?: 0.0
-            val contributionAmountStr = inputtedBalance.text.toString()
-            val contributionAmount = contributionAmountStr.toDoubleOrNull() ?: 0.0
-            val updatedBalance = currentBalance + contributionAmount
-            //val completeString = "$" + updatedBalance.toString()
-            balance.setText(updatedBalance.toString())*/
             val inputStr = inputtedBalance.text.toString()
             if (inputStr.isNotEmpty()) {
                 balanceDouble += inputStr.toDouble()
+                sharedPreferencesManager.saveAccountBalance(username.toString(), balanceDouble)
                 val formattedBalance = "$%.2f".format(balanceDouble)
                 balance.text = formattedBalance
             }
@@ -83,7 +83,7 @@ class AccountMainActivity : AppCompatActivity() {
                 putExtra("goalAmount", goalAmount)
                 putExtra("date", date)
                 putExtra("progress", progress)
-                // Add any other data you want to pass
+                putExtra("username", username)
             }
             startActivity(intent2)
         }
@@ -91,7 +91,6 @@ class AccountMainActivity : AppCompatActivity() {
 
     private val createGoalLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == RESULT_OK) {
-            // Handle the result here
             val data = result.data
             // Retrieve goal data from NewGoal activity result
             val goalName = data?.getStringExtra("goalName") ?: ""
@@ -112,4 +111,5 @@ class AccountMainActivity : AppCompatActivity() {
             (goalListView.adapter as? ArrayAdapter<String>)?.notifyDataSetChanged()
         }
     }
+
 }

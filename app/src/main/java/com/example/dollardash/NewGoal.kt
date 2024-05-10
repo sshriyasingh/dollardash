@@ -22,7 +22,20 @@ class NewGoal : AppCompatActivity() {
 
         datePicker.minDate = calendar.timeInMillis
         val enterButton = findViewById<Button>(R.id.enterButton)
-
+        val sendEmail = findViewById<Button>(R.id.sendEmail)
+        sendEmail.setOnClickListener {
+            var emailIntent : Intent = Intent( Intent.ACTION_SEND )
+            emailIntent.setType( "text/plain" )
+            emailIntent.putExtra( Intent.EXTRA_SUBJECT, "View My New Goal!" )
+            var goaltext = enterGoalName.text
+            var goalamount = enterGoalAmount.text
+            val selectedDate = calendar.time
+            val dateFormat = SimpleDateFormat("MM/dd/yyyy", Locale.getDefault())
+            val formattedDate = dateFormat.format(selectedDate)
+            emailIntent.putExtra(Intent.EXTRA_TEXT, "Goal Name: $goaltext ; Goal Amount: $goalamount ; Date to Complete: $formattedDate")
+            startActivity( Intent.createChooser( emailIntent,
+                "Share Your Goal!"))
+        }
         enterButton.setOnClickListener {
             val goalName = enterGoalName.text.toString()
             //val goalAmount = enterGoalAmount.text.toString().toDoubleOrNull() ?: 0.0

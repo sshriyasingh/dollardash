@@ -20,13 +20,11 @@ import java.util.Calendar
 
 class MainActivity : AppCompatActivity() {
 
-    companion object {
-        var users: MutableList<Users> = mutableListOf()
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        var sharedPreferencesManager = SharedPreferencesManager(this)
 
         var firebase : FirebaseDatabase = FirebaseDatabase.getInstance( )
         var reference : DatabaseReference = firebase.getReference()
@@ -54,6 +52,8 @@ class MainActivity : AppCompatActivity() {
                         val user = auth.currentUser
                         Toast.makeText(this, "Login Successful", Toast.LENGTH_LONG).show()
                         val intent = Intent(this, AccountMainActivity::class.java)
+                        intent.putExtra("username", loginEmail.text.toString())
+                        Log.w("username", loginEmail.toString())
                         //startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
                         startActivity(intent)
                         /*val datePicker = findViewById<DatePicker>(R.id.datePicker)

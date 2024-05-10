@@ -15,6 +15,10 @@ class CreateAccountMain : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_account)
 
+        var sharedPreferencesManager = SharedPreferencesManager(this)
+
+
+
         var firebase : FirebaseDatabase = FirebaseDatabase.getInstance( )
         var reference : DatabaseReference = firebase.getReference()
         val auth: FirebaseAuth = FirebaseAuth.getInstance()
@@ -35,6 +39,7 @@ class CreateAccountMain : AppCompatActivity() {
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         val user = auth.currentUser
+                        sharedPreferencesManager.saveAccountBalance(inputEmail.text.toString(), 0.0)
                         Toast.makeText(this, "Account Created Successfully", Toast.LENGTH_LONG).show()
                     } else {
                         Log.w("Registration", "createUserWithEmail:failure", task.exception)
