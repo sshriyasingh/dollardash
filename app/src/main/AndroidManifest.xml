@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-
+    <uses-permission android:name="android.permission.WRITE_CALENDAR"/>
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -31,6 +31,11 @@
         <activity android:name=".CreateAccountMain"
             android:exported="false"/>
         <activity android:name=".AccountMainActivity"
+            android:exported="false"/>
+        <activity
+            android:name=".GoalOverviewActivity"
+            android:exported="false" />
+        <activity android:name=".NewGoal"
             android:exported="false"/>
 
         <activity

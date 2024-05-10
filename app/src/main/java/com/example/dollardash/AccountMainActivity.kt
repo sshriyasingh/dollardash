@@ -2,55 +2,114 @@ package com.example.dollardash
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import android.widget.ArrayAdapter
 import android.widget.Button
-import android.widget.DatePicker
 import android.widget.EditText
+import android.widget.ListView
 import android.widget.TextView
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
-import java.util.Calendar
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class AccountMainActivity : AppCompatActivity() {
+    private lateinit var inputtedBalance: EditText
+    private lateinit var createGoalButton: Button
+    private lateinit var updateBalanceButton: Button
+    private lateinit var balance: TextView
+    private lateinit var goalListView: ListView
+    private val goalList: MutableList<String> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_account_main)
 
-        var firebase : FirebaseDatabase = FirebaseDatabase.getInstance( )
-        var reference : DatabaseReference = firebase.getReference()
-        val auth: FirebaseAuth = FirebaseAuth.getInstance()
+        // Initialize views
+        inputtedBalance = findViewById(R.id.inputtedBalance)
+        createGoalButton = findViewById(R.id.createGoalButton)
+        updateBalanceButton = findViewById(R.id.updateBalance)
+        var balanceDouble = 0.00
+        balance = findViewById(R.id.balance)
+        goalListView = findViewById(R.id.listView)
 
-        val datePicker = findViewById<DatePicker>(R.id.datePicker)
-        val calendar = Calendar.getInstance()
-        datePicker.minDate = calendar.timeInMillis
-        val inputtedBalance = findViewById<EditText>(R.id.inputtedBalance)
-        val updateBalance = findViewById<Button>(R.id.updateBalance)
-        var balance = 0
-        val currBalance = findViewById<TextView>(R.id.currBalance)
-        val createGoalButton = findViewById<TextView>(R.id.createGoalButton)
+        // Set adapter for the goal list view
+        val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, goalList)
+        goalListView.adapter = adapter
 
-        updateBalance.setOnClickListener() {
+        createGoalButton.setOnClickListener {
+            val intent = Intent(this@AccountMainActivity, NewGoal::class.java)
+            createGoalLauncher.launch(intent)
+        }
+
+        updateBalanceButton.setOnClickListener {
+            /*val currentBalance = balance.text.toString().toDoubleOrNull() ?: 0.0
+            val contributionAmountStr = inputtedBalance.text.toString()
+            val contributionAmount = contributionAmountStr.toDoubleOrNull() ?: 0.0
+            val updatedBalance = currentBalance + contributionAmount
+            //val completeString = "$" + updatedBalance.toString()
+            balance.setText(updatedBalance.toString())*/
             val inputStr = inputtedBalance.text.toString()
             if (inputStr.isNotEmpty()) {
-                val number = inputStr.toInt()
-                balance += number
-                currBalance.text = "Your Current Balance: \$" + balance
+                balanceDouble += inputStr.toDouble()
+                val formattedBalance = "$%.2f".format(balanceDouble)
+                balance.text = formattedBalance
             }
-        }
-        createGoalButton.setOnClickListener() {
-            val intent = Intent(this, GoalOverviewActivity::class.java)
-            //startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
-            startActivity(intent)
-            //currently login button does not work when you "go back to login button"
         }
         val logoutButton = findViewById<Button>(R.id.logout)
         logoutButton.setOnClickListener() {
             FirebaseAuth.getInstance().signOut()
             finish()
         }
+        // Inside onCreate method of MainActivity
+        goalListView.setOnItemClickListener { parent, view, position, id ->
+            val goalString = goalList[position]
+            Log.w("goalString", goalString)
+            val parts = goalString.split(" ")
+            Log.w("parts", parts[0])
+            Log.w("parts", parts[1])
+            Log.w("parts", parts[2])
+            Log.w("parts", parts[3])
+            Log.w("parts", parts[4])
 
+            val goalName = parts[0] // Extracting the goalName
+            val goalAmount = parts[4].removePrefix("$").toDouble().toInt() // Extracting the goalAmount
+            val progress = parts[2].removePrefix("$").toDouble().toInt()
+            val date = parts[2].substring(4) // Extracting the date (excluding "by ")
+            val intent2 = Intent(this@AccountMainActivity, GoalOverviewActivity::class.java).apply {
+                putExtra("goalName", goalName)
+                Log.w("goalAmount", goalAmount.toString())
+                putExtra("goalAmount", goalAmount)
+                putExtra("date", date)
+                putExtra("progress", progress)
+                // Add any other data you want to pass
+            }
+            startActivity(intent2)
+        }
     }
 
+    private val createGoalLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == RESULT_OK) {
+            // Handle the result here
+            val data = result.data
+            // Retrieve goal data from NewGoal activity result
+            val goalName = data?.getStringExtra("goalName") ?: ""
+            val goalAmount = data?.getDoubleExtra("goalAmount", 0.0) ?: 0.0
+            val progress = data?.getDoubleExtra("progress", 0.0) ?: 0.0
+            val dateString = data?.getStringExtra("selectedDate") ?: ""
+            val dateFormat = SimpleDateFormat("MM/dd/yyyy", Locale.getDefault())
+            val date = if (dateString.isNotEmpty()) {
+                val parsedDate = dateFormat.parse(dateString)
+                parsedDate?.let {
+                    dateFormat.format(it) // Format the date without time
+                }
+            } else {
+                null
+            }
+            val goalString = "$goalName - $$progress / $$goalAmount                         by $date"
+            goalList.add(goalString)
+            (goalListView.adapter as? ArrayAdapter<String>)?.notifyDataSetChanged()
+        }
+    }
 }

@@ -11,7 +11,6 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 
 class CreateAccountMain : AppCompatActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_account)
@@ -44,6 +43,4 @@ class CreateAccountMain : AppCompatActivity() {
                 }
         }
     }
-
-
 }

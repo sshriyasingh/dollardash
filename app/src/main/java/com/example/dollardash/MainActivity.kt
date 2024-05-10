@@ -19,6 +19,11 @@ import com.google.firebase.database.FirebaseDatabase
 import java.util.Calendar
 
 class MainActivity : AppCompatActivity() {
+
+    companion object {
+        var users: MutableList<Users> = mutableListOf()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)

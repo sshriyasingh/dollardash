@@ -6,48 +6,11 @@
     android:layout_height="match_parent">
 
 
-    <ProgressBar
-        android:id="@+id/progressBar"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="312dp"
-        android:layout_height="326dp"
-        android:layout_gravity="center_horizontal"
-        android:progress="70"
-        android:indeterminate="false"
-        android:background="@drawable/circle"
-        android:progressDrawable="@drawable/circular_progress"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="48dp"
-        tools:layout_editor_absoluteY="123dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.327"/>
-
-
-    <TextView
-        android:id="@+id/currPercentage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="25%"
-        android:textAlignment="center"
-        android:textColor="#618264"
-        android:textSize="40sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.402"
-        tools:ignore="MissingConstraints" />
-
-
     <ImageButton
         android:id="@+id/closeButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:onClick="goBack"
         android:background="@android:color/transparent"
         android:src="@android:drawable/ic_menu_close_clear_cancel"
         app:layout_constraintEnd_toEndOf="parent"
@@ -56,7 +19,78 @@
         app:layout_constraintLeft_toLeftOf="parent"/>
 
 
+    <Button
+        android:id="@+id/enterContribution"
+        android:layout_width="293dp"
+        android:layout_height="59dp"
+        android:backgroundTint="#618264"
+        android:text="Enter Contribution"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.864"
+        tools:ignore="MissingConstraints" />
 
+    <Button
+        android:id="@+id/addCalendar"
+        android:layout_width="380dp"
+        android:layout_height="66dp"
+        android:backgroundTint="#5FA052"
+        android:text="Add Event to Calendar"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.983"
+        tools:ignore="MissingConstraints" />
+
+    <EditText
+        android:id="@+id/inputtedContribution"
+        android:layout_width="324dp"
+        android:layout_height="48dp"
+        android:hint="Enter Contribution to Goal"
+        android:inputType="text"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.563"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.758"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/currContribution"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="$500/$2000"
+        android:textAlignment="center"
+        android:textColor="#618264"
+        android:textSize="35sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.224"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.662"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Current Progress:"
+        android:textAlignment="center"
+        android:textColor="#618264"
+        android:textSize="35sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.352"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.581"
+        tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/goalName"
@@ -71,69 +105,41 @@
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.091"
+        app:layout_constraintVertical_bias="0.029"
         tools:ignore="MissingConstraints" />
 
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Current Progress:"
-        android:textAlignment="center"
-        android:textColor="#618264"
-        android:textSize="35sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.309"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.684"
-        tools:ignore="MissingConstraints" />
-
-
-    <TextView
-        android:id="@+id/currContribution"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="$500/$2000"
-        android:textAlignment="center"
-        android:textColor="#618264"
-        android:textSize="35sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.197"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.764"
-        tools:ignore="MissingConstraints" />
-
-
-    <EditText
-        android:id="@+id/inputtedContribution"
-        android:layout_width="324dp"
-        android:layout_height="48dp"
-        android:hint="Enter Contribution to Goal"
-        android:inputType="text"
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="312dp"
+        android:layout_height="326dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/circle"
+        android:indeterminate="false"
+        android:progress="70"
+        android:progressDrawable="@drawable/circular_progress"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.86"
+        app:layout_constraintVertical_bias="0.18"
         tools:ignore="MissingConstraints" />
 
-
-    <Button
-        android:id="@+id/backToLoginButton"
-        android:layout_width="293dp"
-        android:layout_height="59dp"
-        android:backgroundTint="#618264"
-        android:text="Enter Contribution"
-        android:textSize="25sp"
+    <TextView
+        android:id="@+id/currPercentage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="25%"
+        android:textAlignment="center"
+        android:textColor="#618264"
+        android:textSize="40sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.958"
+        app:layout_constraintVertical_bias="0.318"
         tools:ignore="MissingConstraints" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

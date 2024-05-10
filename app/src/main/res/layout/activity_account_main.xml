@@ -5,35 +5,32 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ListView
+        android:id="@+id/listView"
+        android:layout_width="394dp"
+        android:layout_height="198dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.47"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.652"
+        tools:ignore="MissingConstraints" />
+
     <TextView
         android:id="@+id/currBalance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Your Current Balance: $0"
+        android:text="Current Balance:"
         android:textAlignment="center"
         android:textColor="#008500"
         android:textSize="40sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.623"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        tools:ignore="MissingConstraints" />
-
-    <Button
-        android:id="@+id/createGoalButton"
-        android:layout_width="232dp"
-        android:layout_height="54dp"
-        android:backgroundTint="#009900"
-        android:text="Create Goal"
-        android:textSize="25sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.446"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.655"
+        app:layout_constraintVertical_bias="0.023"
         tools:ignore="MissingConstraints" />
 
     <Button
@@ -45,82 +42,53 @@
         android:textSize="25sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.977"
+        app:layout_constraintVertical_bias="0.953"
         tools:ignore="MissingConstraints" />
 
-    <TextView
-        android:id="@+id/createGoalTV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Create A Goal:"
-        android:textAlignment="center"
-        android:textColor="#009900"
-        android:textSize="30sp"
+    <Button
+        android:id="@+id/createGoalButton"
+        android:layout_width="232dp"
+        android:layout_height="54dp"
+        android:backgroundTint="#009900"
+        android:text="Create New Goal"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.301"
+        app:layout_constraintVertical_bias="0.831"
         tools:ignore="MissingConstraints" />
 
-    <EditText
-        android:id="@+id/enterGoalAmount"
-        android:layout_width="324dp"
-        android:layout_height="48dp"
-        android:hint="Enter Goal Amount"
-        android:inputType="text"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <TextView
+        android:id="@+id/balance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="$0.00"
+        android:textColor="#009900"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toTopOf="@+id/inputtedBalance"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.433"
-        tools:ignore="MissingConstraints" />
+        app:layout_constraintTop_toBottomOf="@+id/currBalance"
+        app:layout_constraintVertical_bias="0.096" />
 
-    <EditText
-        android:id="@+id/enterGoalName"
-        android:layout_width="324dp"
-        android:layout_height="48dp"
-        android:hint="Enter Goal Name"
-        android:inputType="text"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Your Current Goals:"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toTopOf="@+id/listView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.363"
-        tools:ignore="MissingConstraints" />
-
-    <DatePicker
-        android:id="@+id/datePicker"
-        android:layout_width="370dp"
-        android:layout_height="92dp"
-        android:calendarViewShown="false"
-        android:datePickerMode="spinner"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.39"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.55"
-        tools:ignore="MissingConstraints" />
-
-    <EditText
-        android:id="@+id/inputtedBalance"
-        android:layout_width="324dp"
-        android:layout_height="48dp"
-        android:hint="Enter Contribution to Balance"
-        android:inputType="text"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.143"
-        tools:ignore="MissingConstraints" />
+        app:layout_constraintTop_toBottomOf="@+id/updateBalance"
+        app:layout_constraintVertical_bias="0.246" />
 
     <Button
         android:id="@+id/updateBalance"
@@ -131,20 +99,24 @@
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.214"
+        app:layout_constraintVertical_bias="0.327"
         tools:ignore="MissingConstraints" />
 
-    <ListView
-        android:layout_width="395dp"
-        android:layout_height="141dp"
+    <EditText
+        android:id="@+id/inputtedBalance"
+        android:layout_width="324dp"
+        android:layout_height="48dp"
+        android:hint="Enter Contribution to Balance"
+        android:inputType="text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.482"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.852"
+        app:layout_constraintVertical_bias="0.187"
         tools:ignore="MissingConstraints" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

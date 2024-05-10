@@ -1,26 +1,47 @@
 package com.example.dollardash
 
+
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import android.util.Log
+import android.view.View
+
+
+
 
 class GoalOverviewActivity : AppCompatActivity() {
+    private var currentProgress : Int = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_goal_overview)
 
+
         val progressBar = findViewById<ProgressBar>(R.id.progressBar)
         val textViewProgress = findViewById<TextView>(R.id.currContribution)
         val editTextNumber = findViewById<EditText>(R.id.inputtedContribution)
-        val buttonUpdate = findViewById<Button>(R.id.backToLoginButton)
+        val buttonUpdate = findViewById<Button>(R.id.enterContribution)
+        val addToCal = findViewById<Button>(R.id.addCalendar)
+        val goalName = findViewById<TextView>(R.id.goalName)
 
         // Maximum value for the progress bar
-        val maxProgress = 2000
+        val maxProgress = intent.getIntExtra("goalAmount", 0)
+
+        Log.w("MaxProgress", maxProgress.toString())
+        goalName.text = intent.getStringExtra("goalName")
         progressBar.max = maxProgress  // You might need to adjust your custom progress drawable
-        var currentProgress = 500
+        currentProgress = intent.getIntExtra("progress", 0)
+        progressBar.progress = currentProgress
+
+        val percentageView = findViewById<TextView>(R.id.currPercentage)
+        var percentage = (currentProgress.toFloat() / maxProgress.toFloat() * 100).toInt()
+        percentageView.text = "$percentage%"
+
+        textViewProgress.text = "$$currentProgress/$${maxProgress.toString()}"
         buttonUpdate.setOnClickListener {
             val contribution = editTextNumber.text.toString().toIntOrNull() ?: 0
             //val
@@ -29,11 +50,21 @@ class GoalOverviewActivity : AppCompatActivity() {
             currentProgress = newProgress
             textViewProgress.text = "$$newProgress/$maxProgress"
             editTextNumber.text.clear()
-
+            //val resultIntent = Intent()
+            // resultIntent.putExtra("progress", currentProgress)
             // Update percentage TextView
-            val percentageView = findViewById<TextView>(R.id.currPercentage)
-            val percentage = (newProgress.toFloat() / maxProgress.toFloat() * 100).toInt()
+            percentage = (newProgress.toFloat() / maxProgress.toFloat() * 100).toInt()
             percentageView.text = "$percentage%"
+
+
         }
     }
+    fun goBack(view: View) {
+        val resultIntent = Intent()
+        resultIntent.putExtra("progress", currentProgress)
+        setResult(RESULT_OK, resultIntent)  // Set the result with RESULT_OK and the intent
+        finish()
+    }
+
+
 }
