@@ -44,28 +44,23 @@ class GoalOverviewActivity : AppCompatActivity() {
         textViewProgress.text = "$$currentProgress/$${maxProgress.toString()}"
         buttonUpdate.setOnClickListener {
             val contribution = editTextNumber.text.toString().toIntOrNull() ?: 0
-            sharedPreferencesManager.saveAccountBalance(username.toString(), sharedPreferencesManager.getAccountBalance(username.toString()) - contribution)
+            sharedPreferencesManager.saveAccountBalance(username.toString(), sharedPreferencesManager.getAccountBalance(username.toString()))
             //val
             val newProgress = currentProgress + contribution
             progressBar.progress = newProgress
             currentProgress = newProgress
             textViewProgress.text = "$$newProgress/$maxProgress"
             editTextNumber.text.clear()
-            //val resultIntent = Intent()
-            // resultIntent.putExtra("progress", currentProgress)
-            // Update percentage TextView
             percentage = (newProgress.toFloat() / maxProgress.toFloat() * 100).toInt()
             percentageView.text = "$percentage%"
-
-
         }
     }
     fun goBack(view: View) {
-        val resultIntent = Intent()
-        resultIntent.putExtra("progress", currentProgress)
+        val resultIntent = Intent().apply {
+            putExtra("progress", currentProgress)
+            putExtra("goalIndex", intent.getIntExtra("goalIndex", -1))  // Get the passed index back
+        }
         setResult(RESULT_OK, resultIntent)
         finish()
     }
-
-
 }

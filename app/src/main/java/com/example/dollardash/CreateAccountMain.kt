@@ -17,8 +17,6 @@ class CreateAccountMain : AppCompatActivity() {
 
         var sharedPreferencesManager = SharedPreferencesManager(this)
 
-
-
         var firebase : FirebaseDatabase = FirebaseDatabase.getInstance( )
         var reference : DatabaseReference = firebase.getReference()
         val auth: FirebaseAuth = FirebaseAuth.getInstance()

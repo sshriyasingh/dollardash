@@ -21,13 +21,12 @@ class AccountMainActivity : AppCompatActivity() {
     private lateinit var balance: TextView
     private lateinit var goalListView: ListView
     private val goalList: MutableList<String> = mutableListOf()
+    var updatedBalance = 0.0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_account_main)
-
         var sharedPreferencesManager = SharedPreferencesManager(this)
-
         sharedPreferencesManager.printAllPreferences()
 
         inputtedBalance = findViewById(R.id.inputtedBalance)
@@ -35,6 +34,7 @@ class AccountMainActivity : AppCompatActivity() {
         updateBalanceButton = findViewById(R.id.updateBalance)
         val curr = intent
         val username = curr.getStringExtra("username")
+
         var balanceDouble = sharedPreferencesManager.getAccountBalance(username.toString())
         balance = findViewById(R.id.balance)
         balance.text = "$%.2f".format(balanceDouble)
@@ -49,48 +49,38 @@ class AccountMainActivity : AppCompatActivity() {
         }
 
         updateBalanceButton.setOnClickListener {
-            val inputStr = inputtedBalance.text.toString()
-            if (inputStr.isNotEmpty()) {
-                balanceDouble += inputStr.toDouble()
-                sharedPreferencesManager.saveAccountBalance(username.toString(), balanceDouble)
-                val formattedBalance = "$%.2f".format(balanceDouble)
-                balance.text = formattedBalance
-            }
+            val currentBalance = sharedPreferencesManager.getAccountBalance(username.toString())
+            val contributionAmountStr = inputtedBalance.text.toString()
+            val contributionAmount = contributionAmountStr.toDoubleOrNull() ?: 0.0
+            updatedBalance = currentBalance + contributionAmount
+            sharedPreferencesManager.saveAccountBalance(username.toString(), updatedBalance)
+            val formattedBalance = "$%.2f".format(updatedBalance)
+            balance.text = formattedBalance
         }
         val logoutButton = findViewById<Button>(R.id.logout)
         logoutButton.setOnClickListener() {
             FirebaseAuth.getInstance().signOut()
             finish()
         }
-        // Inside onCreate method of MainActivity
-        goalListView.setOnItemClickListener { parent, view, position, id ->
+        goalListView.setOnItemClickListener { _, _, position, _ ->
             val goalString = goalList[position]
-            Log.w("goalString", goalString)
             val parts = goalString.split(" ")
-            Log.w("parts", parts[0])
-            Log.w("parts", parts[1])
-            Log.w("parts", parts[2])
-            Log.w("parts", parts[3])
-            Log.w("parts", parts[4])
-
-            val goalName = parts[0] // Extracting the goalName
-            val goalAmount = parts[4].removePrefix("$").toDouble().toInt() // Extracting the goalAmount
+            val goalName = parts[0]
+            val goalAmount = parts[4].removePrefix("$").toDouble().toInt()
             val progress = parts[2].removePrefix("$").toDouble().toInt()
-            val date = parts[2].substring(4) // Extracting the date (excluding "by ")
-            val intent2 = Intent(this@AccountMainActivity, GoalOverviewActivity::class.java).apply {
+            val intent = Intent(this@AccountMainActivity, GoalOverviewActivity::class.java).apply {
                 putExtra("goalName", goalName)
-                Log.w("goalAmount", goalAmount.toString())
                 putExtra("goalAmount", goalAmount)
-                putExtra("date", date)
                 putExtra("progress", progress)
-                putExtra("username", username)
+                putExtra("goalIndex", position)
             }
-            startActivity(intent2)
+            goalOverviewLauncher.launch(intent)
         }
     }
 
     private val createGoalLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == RESULT_OK) {
+            // Handle the result here
             val data = result.data
             // Retrieve goal data from NewGoal activity result
             val goalName = data?.getStringExtra("goalName") ?: ""
@@ -106,10 +96,37 @@ class AccountMainActivity : AppCompatActivity() {
             } else {
                 null
             }
-            val goalString = "$goalName - $$progress / $$goalAmount                         by $date"
+            val goalString = "$goalName - $$progress / $$goalAmount   by $date"
             goalList.add(goalString)
             (goalListView.adapter as? ArrayAdapter<String>)?.notifyDataSetChanged()
         }
     }
-
+    private val goalOverviewLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == RESULT_OK) {
+            val data = result.data
+            var sharedPreferencesManager = SharedPreferencesManager(this)
+            val curr = intent
+            val username = curr.getStringExtra("username")
+            val updatedProgress = data?.getIntExtra("progress", 0) ?: 0
+            val goalIndex = data?.getIntExtra("goalIndex", -1) ?: -1
+            val currentBal = sharedPreferencesManager.getAccountBalance(username.toString())
+            updatedBalance = currentBal - updatedProgress.toDouble()
+            sharedPreferencesManager.saveAccountBalance(username.toString(), updatedBalance)
+            balance.setText(updatedBalance.toString())
+            if (goalIndex >= 0 && goalIndex < goalList.size) {
+                val goalString = goalList[goalIndex]
+                val parts = goalString.split(" ")
+                val goalName = parts[0]
+                val goalAmount = parts[4].removePrefix("$").toDouble().toInt()
+                Log.w("date", goalString)
+                Log.w("date", parts[5])
+                Log.w("date", parts[6])
+                Log.w("date", parts[7])
+                Log.w("date", parts[8])
+                val newGoalString = "$goalName - $$updatedProgress / $$goalAmount            by ${parts[8]}"
+                goalList[goalIndex] = newGoalString
+                (goalListView.adapter as ArrayAdapter<*>).notifyDataSetChanged()
+            }
+        }
+    }
 }
